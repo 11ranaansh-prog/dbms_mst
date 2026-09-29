@@ -1,0 +1,44 @@
+-- Create a simple Library Management System using Book and Member tables.
+-- 1. Create both tables with suitable attributes.
+-- 2. Apply Primary Key, Foreign Key, NOT NULL, UNIQUE, and DEFAULT constraints.
+-- 3. Insert at least 5 books and 3 members.
+-- 4. Display books belonging to a particular category.
+-- 5. Update the availability status of a book.
+-- 6. Delete a book based on its ID.
+-- 7. Add a new column to the Book table using ALTER.
+-- 8. Rename the Book table using RENAME.
+-- 9. Display the records after performing the operations.
+ 
+CREATE DATABASE library_db;
+USE library_db;
+CREATE TABLE Member (
+    id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(50) UNIQUE,
+    joined DATE DEFAULT (CURRENT_DATE)
+);
+CREATE TABLE Book (
+    id INT PRIMARY KEY,
+    title VARCHAR(50) NOT NULL,
+    genre VARCHAR(50) NOT NULL,
+    status VARCHAR(10) DEFAULT 'Yes',
+    member_id INT,
+    FOREIGN KEY (member_id) REFERENCES Member(id)
+);
+INSERT INTO Member VALUES (1, 'Alice', 'a@mail.com', CURRENT_DATE);
+INSERT INTO Member VALUES (2, 'Bob', 'b@mail.com', CURRENT_DATE);
+INSERT INTO Member VALUES (3, 'Charlie', 'c@mail.com', CURRENT_DATE);
+
+INSERT INTO Book VALUES (1, 'Book A', 'Sci-Fi', 'No', 1);
+INSERT INTO Book VALUES (2, 'Book B', 'Sci-Fi', 'Yes', NULL);
+INSERT INTO Book VALUES (3, 'Book C', 'Drama', 'No', 2);
+INSERT INTO Book VALUES (4, 'Book D', 'Drama', 'Yes', NULL);
+INSERT INTO Book VALUES (5, 'Book E', 'Action', 'Yes', NULL);
+
+SELECT * FROM Book WHERE genre = 'Sci-Fi';
+UPDATE Book SET status = 'No' WHERE id = 2;
+DELETE FROM Book WHERE id = 5;
+ALTER TABLE Book ADD price INT DEFAULT 10;
+RENAME TABLE Book TO MyBook;
+SELECT * FROM MyBook;
+SELECT * FROM Member;
